@@ -12,22 +12,15 @@ namespace ken.Spikes.Owin.ServeDirectory
     public class ServeDirectoryMiddleware
     {
         private readonly AppFunc _next;
+        private readonly ServeDirectoryMiddlewareOptions _options;
 
-        private static string GetFullRoot(string root)
-        {
-            var applicationBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            var fullRoot = Path.GetFullPath(Path.Combine(applicationBase, root));
-            if (!fullRoot.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
-            {
-                fullRoot += Path.DirectorySeparatorChar;
-            }
-            return fullRoot;
-        }
-
-        public ServeDirectoryMiddleware(AppFunc next)
+        public ServeDirectoryMiddleware(AppFunc next, ServeDirectoryMiddlewareOptions options)
         {
             if (null == next) throw new ArgumentNullException("next");
+            if (null == options) throw new ArgumentNullException("options");
+            
             _next = next;
+            _options = options;
         }
 
         public async Task Invoke(IDictionary<string, object> environment)
@@ -35,10 +28,7 @@ namespace ken.Spikes.Owin.ServeDirectory
             var ctx = new OwinContext(environment);
             Debug.WriteLine("Serve IN : " + ctx.Request.Path);
 
-            var rootDirectory = GetFullRoot("_site");
-            Debug.WriteLine(rootDirectory);
-
-            var defaultFile = Path.Combine(rootDirectory, "index.html");
+            var defaultFile = Path.Combine(_options.RootDirectory, "index.html");
             Debug.WriteLine(defaultFile);
 
             ctx.Response.ContentType = "text/html";

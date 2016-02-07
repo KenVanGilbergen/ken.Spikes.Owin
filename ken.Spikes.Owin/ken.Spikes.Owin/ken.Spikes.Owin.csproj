@@ -56,7 +56,10 @@
     <Compile Include="Cornify\CornifyMiddleWare.cs" />
     <Compile Include="Cornify\CornifyMiddlewareExtensions.cs" />
     <Compile Include="Cornify\CornifyMiddlewareOptions.cs" />
+    <Compile Include="IOwinContextExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServeDirectory\ServeDirectoryMiddlewareExtensions.cs" />
+    <Compile Include="ServeDirectory\ServeDirectoryMiddlewareOptions.cs" />
     <Compile Include="ServeDirectory\ServeDirectoryMiddleWare.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

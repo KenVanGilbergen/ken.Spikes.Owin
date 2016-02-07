@@ -73,6 +73,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\ken.Spikes.Owin.Shared\favicon.ico">
+      <Link>_site\favicon.ico</Link>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="_site\index.html" />
   </ItemGroup>

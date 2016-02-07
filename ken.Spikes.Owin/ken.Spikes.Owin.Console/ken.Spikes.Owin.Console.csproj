@@ -73,6 +73,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\ken.Spikes.Owin.Shared\favicon.ico">
+      <Link>_site\favicon.ico</Link>
+    </Content>
     <Content Include="_site\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
