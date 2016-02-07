@@ -31,7 +31,7 @@ namespace ken.Spikes.Owin
                 });
             });
 
-            app.Use<CornifyMiddleWare>();
+            app.UseCornifyMiddleware();
 
             app.Use<ServeDirectoryMiddleWare>();
         }
@@ -115,3 +115,43 @@ namespace ken.Spikes.Owin
 //    ClientId = "",
 //    ClientSecret = ""
 //});
+
+
+//app.Use(async (ctx, next) =>
+//{
+//    Debug.WriteLine("IN2");
+
+//    //ctx.Request.Headers.Remove("If-Modified-Since");
+//    //ctx.Request.Headers.Remove("If-None-Match");
+
+//    //var oldContext = ctx;
+//    //var fakeContext = new OwinContext(ctx.Environment);
+//    //ctx = fakeContext;
+//    var responseStream = ctx.Response.Body;
+//    var stream = new MemoryStream();
+//    ctx.Response.Body = stream;
+//    await next();
+//    Debug.WriteLine("MIDDLE2 : " + stream.Position + " / " + stream.Length);
+//    ctx.Response.Body = responseStream;
+//    //ctx = oldContext;
+
+//    stream.Position = 0;
+//    //await stream.CopyToAsync(responseStream);
+//    var sr = new StreamReader(stream);
+//    string str;
+//    while ((str = sr.ReadLine()) != null)
+//    {
+//        if (str.Contains("<head>"))
+//        {
+//            str = str.Replace("<head>", "<head><script type='text/javascript' src='http://www.cornify.com/js/cornify.js'></script>");
+//        }
+//        if (str.Contains("</body>"))
+//        {
+//            str = str.Replace("</body>", "<script>(function() { setInterval(function(){ cornify_add(); }, 2000); })();</script>");
+//        }
+//        await ctx.Response.WriteAsync(str);
+//    }
+
+//    Debug.WriteLine("OUT2");
+//});
+

@@ -9,16 +9,18 @@ using Microsoft.Owin;
 namespace ken.Spikes.Owin.Cornify
 {
     using AppFunc = Func<IDictionary<string, object>, Task>;
-    
-    public class CornifyMiddleWare
+
+    public class CornifyMiddleware
     {
         private readonly AppFunc _next;
-        private PathString _cornifyAssetsPath = new PathString("/cornify");
-        
-        public CornifyMiddleWare(AppFunc next)
+        private readonly CornifyMiddlewareOptions _options;
+
+        public CornifyMiddleware(AppFunc next, CornifyMiddlewareOptions options)
         {
             if (null == next) throw new ArgumentNullException("next");
+            if (null == options) throw new ArgumentNullException("options");
             _next = next;
+            _options = options;
         }
 
         private async Task<Byte[]> GetFromResources(string location)
@@ -34,11 +36,11 @@ namespace ken.Spikes.Owin.Cornify
             }
         }
 
-        private async Task<bool> HandledCornifyAsset(IOwinContext ctx)
+        private async Task<bool> HandledCornifyAsset(IOwinContext ctx, PathString cornifyAssetsPath)
         {
             var path = ctx.Request.Path;
             PathString remainingPath;
-            if (path.StartsWithSegments(_cornifyAssetsPath, out remainingPath))
+            if (path.StartsWithSegments(cornifyAssetsPath, out remainingPath))
             {
                 var asset = GetFromResources(remainingPath.Value);
                 if (null != asset.Result)
@@ -56,7 +58,7 @@ namespace ken.Spikes.Owin.Cornify
             
             var ctx = new OwinContext(environment);
 
-            if (await HandledCornifyAsset(ctx)) return;
+            if (await HandledCornifyAsset(ctx, new PathString(_options.CornifyAssetsPath))) return;
             
             var realStream = ctx.Response.Body;
             var bufferStream = new MemoryStream();
@@ -74,15 +76,16 @@ namespace ken.Spikes.Owin.Cornify
             {
                 if (str.Contains("<head>"))
                 {
-                    //str = str.Replace("<head>", "<head><script type='text/javascript' src='http://www.cornify.com/js/cornify.js'></script>");
                     str = str.Replace(
                         "<head>", 
-                        String.Format("<head><script type='text/javascript' src='{0}/cornify.js'></script>", _cornifyAssetsPath)
+                        String.Format("<head><script type='text/javascript' src='{0}/cornify.js'></script>", _options.CornifyAssetsPath)
                         );
                 }
                 if (str.Contains("</body>"))
                 {
-                    str = str.Replace("</body>", "<script>(function() { setInterval(function(){ cornify_add(); }, 300); })();</script>");
+                    str = str.Replace(
+                        "</body>",
+                        "<script>(function() { setInterval(function(){ cornify_add(); }, " + _options.AddDelayInMilliseconds + "); })();</script>");
                 }
                 await ctx.Response.WriteAsync(str);
             }
@@ -92,41 +95,4 @@ namespace ken.Spikes.Owin.Cornify
     }
 }
 
-            //app.Use(async (ctx, next) =>
-            //{
-            //    Debug.WriteLine("IN2");
-
-            //    //ctx.Request.Headers.Remove("If-Modified-Since");
-            //    //ctx.Request.Headers.Remove("If-None-Match");
-
-            //    //var oldContext = ctx;
-            //    //var fakeContext = new OwinContext(ctx.Environment);
-            //    //ctx = fakeContext;
-            //    var responseStream = ctx.Response.Body;
-            //    var stream = new MemoryStream();
-            //    ctx.Response.Body = stream;
-            //    await next();
-            //    Debug.WriteLine("MIDDLE2 : " + stream.Position + " / " + stream.Length);
-            //    ctx.Response.Body = responseStream;
-            //    //ctx = oldContext;
-
-            //    stream.Position = 0;
-            //    //await stream.CopyToAsync(responseStream);
-            //    var sr = new StreamReader(stream);
-            //    string str;
-            //    while ((str = sr.ReadLine()) != null)
-            //    {
-            //        if (str.Contains("<head>"))
-            //        {
-            //            str = str.Replace("<head>", "<head><script type='text/javascript' src='http://www.cornify.com/js/cornify.js'></script>");
-            //        }
-            //        if (str.Contains("</body>"))
-            //        {
-            //            str = str.Replace("</body>", "<script>(function() { setInterval(function(){ cornify_add(); }, 2000); })();</script>");
-            //        }
-            //        await ctx.Response.WriteAsync(str);
-            //    }
-
-            //    Debug.WriteLine("OUT2");
-            //});
-
+           

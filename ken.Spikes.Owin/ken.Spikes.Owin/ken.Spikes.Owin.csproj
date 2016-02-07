@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cornify\CornifyMiddleWare.cs" />
+    <Compile Include="Cornify\CornifyMiddlewareExtensions.cs" />
+    <Compile Include="Cornify\CornifyMiddlewareOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServeDirectory\ServeDirectoryMiddleWare.cs" />
     <Compile Include="Startup.cs" />
