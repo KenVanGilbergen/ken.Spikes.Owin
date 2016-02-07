@@ -18,7 +18,7 @@ namespace ken.Spikes.Owin
             {
                 Debug.WriteLine("IN - " + ctx.Request.Path);
                 await next();
-                await ctx.Response.WriteAsync("Added at bottom will be moved into body by good browser");
+                if (ctx.Request.Path.Value == "/") await ctx.Response.WriteAsync("Added at bottom will be moved into body by good browser");
                 Debug.WriteLine("OUT - " + ctx.Response.ContentLength);
             });
 

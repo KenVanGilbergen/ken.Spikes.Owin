@@ -13,7 +13,8 @@ namespace ken.Spikes.Owin.Cornify
     public class CornifyMiddleWare
     {
         private readonly AppFunc _next;
-
+        private PathString _cornifyAssetsPath = new PathString("/cornify");
+        
         public CornifyMiddleWare(AppFunc next)
         {
             if (null == next) throw new ArgumentNullException("next");
@@ -36,9 +37,8 @@ namespace ken.Spikes.Owin.Cornify
         private async Task<bool> HandledCornifyAsset(IOwinContext ctx)
         {
             var path = ctx.Request.Path;
-            var pathCornifyAssets = new PathString("/cornify");
             PathString remainingPath;
-            if (path.StartsWithSegments(pathCornifyAssets, out remainingPath))
+            if (path.StartsWithSegments(_cornifyAssetsPath, out remainingPath))
             {
                 var asset = GetFromResources(remainingPath.Value);
                 if (null != asset.Result)
@@ -58,19 +58,6 @@ namespace ken.Spikes.Owin.Cornify
 
             if (await HandledCornifyAsset(ctx)) return;
             
-            //var path = ctx.Request.Path;
-            //var pathCornifyAssets = new PathString("/cornify");
-            //PathString remainingPath;
-            //if (path.StartsWithSegments(pathCornifyAssets, out remainingPath))
-            //{
-            //    var asset = GetFromResources(remainingPath.Value);
-            //    if (null != asset)
-            //    {
-            //        await ctx.Response.WriteAsync(asset);
-            //        return;
-            //    }
-            //}
-
             var realStream = ctx.Response.Body;
             var bufferStream = new MemoryStream();
             ctx.Response.Body = bufferStream;
@@ -87,11 +74,15 @@ namespace ken.Spikes.Owin.Cornify
             {
                 if (str.Contains("<head>"))
                 {
-                    str = str.Replace("<head>", "<head><script type='text/javascript' src='http://www.cornify.com/js/cornify.js'></script>");
+                    //str = str.Replace("<head>", "<head><script type='text/javascript' src='http://www.cornify.com/js/cornify.js'></script>");
+                    str = str.Replace(
+                        "<head>", 
+                        String.Format("<head><script type='text/javascript' src='{0}/cornify.js'></script>", _cornifyAssetsPath)
+                        );
                 }
                 if (str.Contains("</body>"))
                 {
-                    str = str.Replace("</body>", "<script>(function() { setInterval(function(){ cornify_add(); }, 2000); })();</script>");
+                    str = str.Replace("</body>", "<script>(function() { setInterval(function(){ cornify_add(); }, 300); })();</script>");
                 }
                 await ctx.Response.WriteAsync(str);
             }

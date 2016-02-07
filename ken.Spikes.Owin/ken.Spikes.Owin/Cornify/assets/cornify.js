@@ -1,7 +1,7 @@
 var cornify_count = 0;
 cornify_add = function() {
 	cornify_count += 1;
-	var cornify_url = 'http://www.cornify.com/';
+	var cornify_url = '/cornify/';
 	var div = document.createElement('div');
 	div.style.position = 'fixed';
 	
@@ -41,7 +41,10 @@ cornify_add = function() {
 	var currentTime = new Date();
 	var submitTime = currentTime.getTime();
 	if( cornify_count==15 ) submitTime = 0;
-	img.setAttribute('src',cornify_url+'getacorn.php?r=' + submitTime + '&url='+document.location.href);
+    //img.setAttribute('src',cornify_url+'getacorn.php?r=' + submitTime + '&url='+document.location.href);
+    var randomNumber = Math.round(Math.random() * 6 + 1);
+    var randomType = Math.round(Math.random());
+    img.setAttribute('src', cornify_url + (randomType == 0 ? 'unicorn' : 'rainbow') + '_' + randomNumber + '.gif');
 	var ease = "all .1s linear";
 	//div.style['-webkit-transition'] = ease;
 	//div.style.webkitTransition = ease;
@@ -83,7 +86,7 @@ cornify_add = function() {
 			css.id = '__cornify_css';
 			css.type = 'text/css';
 			css.rel = 'stylesheet';
-			css.href = 'http://www.cornify.com/css/cornify.css';
+			css.href = cornify_url + 'cornify.css';
 			css.media = 'screen';
 			head.appendChild(css);
 		}
@@ -108,28 +111,28 @@ cornify_replace = function() {
 /*
  * Adapted from http://www.snaptortoise.com/konami-js/
  */
-var cornami = {
-	input:"",
-	pattern:"38384040373937396665",
-	clear:setTimeout('cornami.clear_input()',5000),
-	load: function() {
-		window.document.onkeydown = function(e) {
-			if (cornami.input == cornami.pattern) {
-				cornify_add();
-				clearTimeout(cornami.clear);
-				return;
-			}
-			else {
-				cornami.input += e ? e.keyCode : event.keyCode;
-				if (cornami.input == cornami.pattern) cornify_add();
-				clearTimeout(cornami.clear);
-				cornami.clear = setTimeout("cornami.clear_input()", 5000);
-			}
-		}
-	},
-	clear_input: function() {
-		cornami.input="";
-		clearTimeout(cornami.clear);
-	}
-}
-cornami.load();
+//var cornami = {
+//	input:"",
+//	pattern:"38384040373937396665",
+//	clear:setTimeout('cornami.clear_input()',5000),
+//	load: function() {
+//		window.document.onkeydown = function(e) {
+//			if (cornami.input == cornami.pattern) {
+//				cornify_add();
+//				clearTimeout(cornami.clear);
+//				return;
+//			}
+//			else {
+//				cornami.input += e ? e.keyCode : event.keyCode;
+//				if (cornami.input == cornami.pattern) cornify_add();
+//				clearTimeout(cornami.clear);
+//				cornami.clear = setTimeout("cornami.clear_input()", 5000);
+//			}
+//		}
+//	},
+//	clear_input: function() {
+//		cornami.input="";
+//		clearTimeout(cornami.clear);
+//	}
+//}
+//cornami.load();
