@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ken.Spikes.Owin.Console", "ken.Spikes.Owin.Console\ken.Spikes.Owin.Console.csproj", "{621A76C2-52B3-46D2-B90F-0D07DD8C8716}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ken.Spikes.Owin", "ken.Spikes.Owin\ken.Spikes.Owin.csproj", "{A0A3ED33-B017-43ED-BFB7-F6BB7B03128D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0681C6BC-2877-4C90-B7E0-51D3A4478326}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ken.Spikes.Owin.IIS", "ken.Spikes.Owin.IIS\ken.Spikes.Owin.IIS.csproj", "{EC62337D-7BEB-446D-B007-B83CB2918B26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ken.Spikes.Owin.Nowin", "ken.Spikes.Owin.Nowin\ken.Spikes.Owin.Nowin.csproj", "{AAAA24F6-9A70-43C7-AAF1-18AC3CFD331D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{621A76C2-52B3-46D2-B90F-0D07DD8C8716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{621A76C2-52B3-46D2-B90F-0D07DD8C8716}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{621A76C2-52B3-46D2-B90F-0D07DD8C8716}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{621A76C2-52B3-46D2-B90F-0D07DD8C8716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0A3ED33-B017-43ED-BFB7-F6BB7B03128D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0A3ED33-B017-43ED-BFB7-F6BB7B03128D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0A3ED33-B017-43ED-BFB7-F6BB7B03128D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0A3ED33-B017-43ED-BFB7-F6BB7B03128D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC62337D-7BEB-446D-B007-B83CB2918B26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC62337D-7BEB-446D-B007-B83CB2918B26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC62337D-7BEB-446D-B007-B83CB2918B26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC62337D-7BEB-446D-B007-B83CB2918B26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAAA24F6-9A70-43C7-AAF1-18AC3CFD331D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAAA24F6-9A70-43C7-AAF1-18AC3CFD331D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAAA24F6-9A70-43C7-AAF1-18AC3CFD331D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAAA24F6-9A70-43C7-AAF1-18AC3CFD331D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
