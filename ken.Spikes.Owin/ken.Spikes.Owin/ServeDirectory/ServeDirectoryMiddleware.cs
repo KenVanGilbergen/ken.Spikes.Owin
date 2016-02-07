@@ -23,15 +23,34 @@ namespace ken.Spikes.Owin.ServeDirectory
             _options = options;
         }
 
+        private string GetMimeType(string fileName)
+        {
+            var mimeType = "application/unknown";
+            var extension = System.IO.Path.GetExtension(fileName);
+            if (null == extension) return "text/html";
+            {
+                string ext = extension.ToLower();
+                Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
+                if (regKey != null && regKey.GetValue("Content Type") != null)
+                    mimeType = regKey.GetValue("Content Type").ToString();
+            }
+            return mimeType;
+        }
+
         public async Task Invoke(IDictionary<string, object> environment)
         {
             var ctx = new OwinContext(environment);
             Debug.WriteLine("Serve IN : " + ctx.Request.Path);
 
-            var defaultFile = Path.Combine(_options.RootDirectory, "index.html");
-            Debug.WriteLine(defaultFile);
+            var path = ctx.Request.Path.Value;
+            if (_options.UseDefaultIndex && path.EndsWith("/")) path += "index.html";
+            
+            var folderPath = path.TrimStart('/').Replace("/","\\");
+            var defaultFile = Path.Combine(_options.RootDirectory, folderPath);
+            
+            var mimeType = GetMimeType(path);
+            ctx.Response.ContentType = mimeType;
 
-            ctx.Response.ContentType = "text/html";
             using (var stream = new FileStream(defaultFile, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true))
             {
                 //    //var buffer = new byte[0x1000];
@@ -39,67 +58,13 @@ namespace ken.Spikes.Owin.ServeDirectory
                 //    //while ((numRead = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
                 //    //{
                 //    //    await ctx.Response.WriteAsync(buffer,0,numRead, CancellationToken.None);
-                //    //    //await next();
                 //    //}
                 await stream.CopyToAsync(ctx.Response.Body);
             }
 
             //await _next(environment);
 
-            //var reading = File.OpenText(defaultFile);
-            //string str;
-            //while ((str = reading.ReadLine()) != null)
-            //{
-            //    if (str.Contains("<head>"))
-            //    {
-            //        str = str.Replace("<head>", "<head><script type='text/javascript' src='http://www.cornify.com/js/cornify.js'></script>");
-            //    }
-            //    if (str.Contains("</body>"))
-            //    {
-            //        str = str.Replace("</body>", "<script>(function() { setInterval(function(){ cornify_add(); }, 2000); })();</script>");
-            //    }
-            //    await ctx.Response.WriteAsync(str);
-            //}
-
             Debug.WriteLine("Serve OUT");
         }
     }
 }
-
-
-            //app.Use(async (ctx, next) =>
-            //{
-            //    var rootDirectory = GetFullRoot("_site");
-            //    Debug.WriteLine(rootDirectory);
-
-            //    var defaultFile = Path.Combine(rootDirectory, "index.html");
-            //    Debug.WriteLine(defaultFile);
-
-            //    ctx.Response.ContentType = "text/html";
-            //    using (var stream = new FileStream(defaultFile, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true))
-            //    {
-            //        //    //var buffer = new byte[0x1000];
-            //        //    //int numRead;
-            //        //    //while ((numRead = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
-            //        //    //{
-            //        //    //    await ctx.Response.WriteAsync(buffer,0,numRead, CancellationToken.None);
-            //        //    //    //await next();
-            //        //    //}
-            //        await stream.CopyToAsync(ctx.Response.Body);
-            //    }
-
-            //    //var reading = File.OpenText(defaultFile);
-            //    //string str;
-            //    //while ((str = reading.ReadLine()) != null)
-            //    //{
-            //    //    if (str.Contains("<head>"))
-            //    //    {
-            //    //        str = str.Replace("<head>", "<head><script type='text/javascript' src='http://www.cornify.com/js/cornify.js'></script>");
-            //    //    }
-            //    //    if (str.Contains("</body>"))
-            //    //    {
-            //    //        str = str.Replace("</body>", "<script>(function() { setInterval(function(){ cornify_add(); }, 2000); })();</script>");
-            //    //    }
-            //    //    await ctx.Response.WriteAsync(str);
-            //    //}
-            //});

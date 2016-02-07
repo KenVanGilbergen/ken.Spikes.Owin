@@ -39,11 +39,15 @@ namespace ken.Spikes.Owin.Cornify
             await _next(environment);
 
             ctx.Response.Body = realStream;
-
-            if (!ctx.IsHtmlResponse()) return;
-
+            
             bufferStream.Seek(0,SeekOrigin.Begin);
-            //await stream.CopyToAsync(ctx.Response.Body);
+
+            if (!ctx.IsHtmlResponse())
+            {
+                await bufferStream.CopyToAsync(ctx.Response.Body);
+                return;
+            }
+
             var sr = new StreamReader(bufferStream);
             string str;
             while ((str = sr.ReadLine()) != null)

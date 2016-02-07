@@ -5,6 +5,8 @@ namespace ken.Spikes.Owin.ServeDirectory
 {
     public class ServeDirectoryMiddlewareOptions
     {
+        public bool UseDefaultIndex { get; set; }
+
         private string _rootDirectory;
         public string RootDirectory
         {
@@ -23,6 +25,7 @@ namespace ken.Spikes.Owin.ServeDirectory
 
         public ServeDirectoryMiddlewareOptions()
         {
+            UseDefaultIndex = true;
             RootDirectory = "_site";
         }
 

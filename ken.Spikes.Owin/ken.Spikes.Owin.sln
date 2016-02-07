@@ -18,11 +18,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ken.Spikes.Owin.IIS", "ken.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ken.Spikes.Owin.Nowin", "ken.Spikes.Owin.Nowin\ken.Spikes.Owin.Nowin.csproj", "{AAAA24F6-9A70-43C7-AAF1-18AC3CFD331D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ken.Spikes.Owin.Shared", "ken.Spikes.Owin.Shared", "{B2425481-E0A6-479C-B494-38A4B7E96179}"
-	ProjectSection(SolutionItems) = preProject
-		ken.Spikes.Owin.Shared\favicon.ico = ken.Spikes.Owin.Shared\favicon.ico
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
