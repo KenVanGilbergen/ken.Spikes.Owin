@@ -33,7 +33,7 @@ namespace ken.Spikes.Owin
 
             app.UseCornifyMiddleware();
 
-            app.Use<ServeDirectoryMiddleWare>();
+            app.Use<ServeDirectoryMiddleware>();
         }
     }
 }

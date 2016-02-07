@@ -9,7 +9,7 @@ namespace ken.Spikes.Owin.ServeDirectory
 {
     using AppFunc = Func<IDictionary<string, object>, Task>;
     
-    public class ServeDirectoryMiddleWare
+    public class ServeDirectoryMiddleware
     {
         private readonly AppFunc _next;
 
@@ -24,7 +24,7 @@ namespace ken.Spikes.Owin.ServeDirectory
             return fullRoot;
         }
 
-        public ServeDirectoryMiddleWare(AppFunc next)
+        public ServeDirectoryMiddleware(AppFunc next)
         {
             if (null == next) throw new ArgumentNullException("next");
             _next = next;
