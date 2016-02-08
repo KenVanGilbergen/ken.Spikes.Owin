@@ -23,21 +23,7 @@ namespace ken.Spikes.Owin.ServeDirectory
             _options = options;
         }
 
-        private string GetMimeType(string fileName)
-        {
-            var mimeType = "application/unknown";
-            var extension = System.IO.Path.GetExtension(fileName);
-            if (null == extension) return "text/html";
-            {
-                string ext = extension.ToLower();
-                Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
-                if (regKey != null && regKey.GetValue("Content Type") != null)
-                    mimeType = regKey.GetValue("Content Type").ToString();
-            }
-            return mimeType;
-        }
-
-        public async Task Invoke(IDictionary<string, object> environment)
+       public async Task Invoke(IDictionary<string, object> environment)
         {
             var ctx = new OwinContext(environment);
             Debug.WriteLine("Serve IN : " + ctx.Request.Path);
@@ -48,8 +34,7 @@ namespace ken.Spikes.Owin.ServeDirectory
             var folderPath = path.TrimStart('/').Replace("/","\\");
             var defaultFile = Path.Combine(_options.RootDirectory, folderPath);
             
-            var mimeType = GetMimeType(path);
-            ctx.Response.ContentType = mimeType;
+            ctx.Response.ContentType = path.ToMimeType();
 
             using (var stream = new FileStream(defaultFile, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true))
             {

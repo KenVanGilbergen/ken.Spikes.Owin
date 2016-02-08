@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 
-namespace ken.Spikes.Owin.Cornify
+namespace ken.Spikes.Owin.KonamiCode
 {
     using AppFunc = Func<IDictionary<string, object>, Task>;
 
-    public class CornifyMiddleware
+    public class KonamiCodeMiddleware
     {
         private readonly AppFunc _next;
-        private readonly CornifyMiddlewareOptions _options;
+        private readonly KonamiCodeMiddlewareOptions _options;
 
-        public CornifyMiddleware(AppFunc next, CornifyMiddlewareOptions options)
+        public KonamiCodeMiddleware(AppFunc next, KonamiCodeMiddlewareOptions options)
         {
             if (null == next) throw new ArgumentNullException("next");
             if (null == options) throw new ArgumentNullException("options");
@@ -26,7 +25,7 @@ namespace ken.Spikes.Owin.Cornify
 
         public async Task Invoke(IDictionary<string, object> environment)
         {
-            Debug.WriteLine("Cornify IN");
+            Debug.WriteLine("KonamiCode IN");
             
             var ctx = new OwinContext(environment);
 
@@ -39,8 +38,8 @@ namespace ken.Spikes.Owin.Cornify
             await _next(environment);
 
             ctx.Response.Body = realStream;
-            
-            bufferStream.Seek(0,SeekOrigin.Begin);
+
+            bufferStream.Seek(0, SeekOrigin.Begin);
 
             if (!ctx.IsHtmlResponse())
             {
@@ -55,26 +54,26 @@ namespace ken.Spikes.Owin.Cornify
                 if (str.Contains("<head>"))
                 {
                     str = str.Replace(
-                        "<head>", 
-                        String.Format("<head><script type='text/javascript' src='{0}/cornify.js'></script>", _options.AssetsPath)
+                        "<head>",
+                        String.Format("<head><script type='text/javascript' src='{0}/konami.js'></script>", _options.AssetsPath)
                         );
                 }
-                if (_options.Autostart && str.Contains("</body>"))
+                if (str.Contains("</body>"))
                 {
                     str = str.Replace(
                         "</body>",
-                        "<script>(function() { setInterval(function(){ cornify_add(); }, " + _options.AddDelayInMilliseconds + "); })();</script></body>");
+                        String.Format("<script>var easter_egg = new Konami(function() {{ {0} }});</script></body>",_options.Action));
                 }
                 await ctx.Response.WriteAsync(str);
             }
 
-            Debug.WriteLine("Cornify OUT");
+            Debug.WriteLine("KonamiCode OUT");
         }
 
         private async Task<Byte[]> GetFromResources(string location)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "ken.Spikes.Owin.Cornify.assets." + location.Replace("/", "");
+            var resourceName = "ken.Spikes.Owin.KonamiCode.assets." + location.Replace("/", "");
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             {
                 if (stream == null) return null;

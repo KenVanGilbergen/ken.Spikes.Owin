@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using ken.Spikes.Owin.Cornify;
+using ken.Spikes.Owin.KonamiCode;
 using ken.Spikes.Owin.ServeDirectory;
 using Owin;
 
@@ -18,7 +19,7 @@ namespace ken.Spikes.Owin
             {
                 Debug.WriteLine("IN - " + ctx.Request.Path);
                 await next();
-                if (ctx.Request.Path.Value == "/") await ctx.Response.WriteAsync("Added at bottom will be moved into body by good browser");
+                if (ctx.IsHtmlResponse()) await ctx.Response.WriteAsync("Added at bottom will be moved into body by good browser");
                 Debug.WriteLine("OUT - " + ctx.Response.ContentLength);
             });
 
@@ -31,7 +32,8 @@ namespace ken.Spikes.Owin
                 });
             });
 
-            app.UseCornifyMiddleware();
+            app.UseCornifyMiddleware(new CornifyMiddlewareOptions { Autostart = false });
+            app.UseKonamiCodeMiddleware(new KonamiCodeMiddlewareOptions { Action = "setInterval(function(){ cornify_add(); },500);" });
 
             app.UseServeDirectoryMiddleware();
         }

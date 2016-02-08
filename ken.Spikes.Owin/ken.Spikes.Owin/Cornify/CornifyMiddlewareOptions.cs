@@ -2,14 +2,16 @@
 {
     public class CornifyMiddlewareOptions
     {
-        public string CornifyAssetsPath { get; set; }
+        public string AssetsPath { get; set; }
         public int AddDelayInMilliseconds { get; set; }
+        public bool Autostart { get; set; }
 
         public CornifyMiddlewareOptions()
         {
-            //CornifyAssetsPath = "http://www.cornify.com/js/";
-            CornifyAssetsPath = "/cornify";
+            //AssetsPath = "http://www.cornify.com/js/";
+            AssetsPath = "/cornify";
             AddDelayInMilliseconds = 300;
+            Autostart = true;
         }
     }
 }
