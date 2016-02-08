@@ -16,7 +16,7 @@ namespace ken.Spikes.Owin
 
             app.Use(async (ctx, next) =>
             {
-                Debug.WriteLine("IN - " + ctx.Request.Path);
+                Debug.WriteLine("IN - [{0}] {1}{2}", ctx.Request.Method, ctx.Request.Path, ctx.Request.QueryString);
                 await next();
                 if (ctx.IsHtmlResponse()) await ctx.Response.WriteAsync("Added at bottom will be moved into body by good browser");
                 Debug.WriteLine("OUT - " + ctx.Response.ContentLength);
@@ -38,14 +38,26 @@ namespace ken.Spikes.Owin
                 }
             });
 
-            app.Map("/mapped", map =>
-            {
-                map.Run(ctx =>
+            app.Map("/mapped", map => map.Run(ctx =>
                 {
                     ctx.Response.ContentType = "text/html";
                     return ctx.Response.WriteAsync("<html><body>mapped</body></html>");
-                });
-            });
+                }));
+           
+            //app.UseBeanMiddleware();
+            //app.Use(async (ctx, next) =>
+            //{
+            //    if (ctx.Authentication.User != null &&
+            //        ctx.Authentication.User.Identity != null &&
+            //        ctx.Authentication.User.Identity.IsAuthenticated)
+            //    {
+            //        await next();
+            //    }
+            //    else
+            //    {
+            //        ctx.Authentication.Challenge(AuthenticationTypes.Federation);
+            //    }
+            //});
 
             app.UseCornifyMiddleware(new CornifyMiddlewareOptions { Autostart = false });
             app.UseKonamiCodeMiddleware(new KonamiCodeMiddlewareOptions { Action = "setInterval(function(){ cornify_add(); },500);" });

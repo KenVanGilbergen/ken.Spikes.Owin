@@ -10,11 +10,14 @@ A bunch of middleware that can be used to teach the owin specification.
 * UseCornifyMiddleware();
 * UseKonamiCodeMiddleware();
 * UseServeDirectoryMiddleware();
+* WsFederationAuthenticationMiddleware
+* [WIP] UseBeanMiddleware();
 
 ## Things to remember
 
 * Once you write to the body you can no longer change the headers
 * Set the content-type correctly
+* Cookie middleware before federated so into bean extensions
 
 ## Humans
 
