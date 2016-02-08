@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using ken.Spikes.Owin.Cornify;
 using ken.Spikes.Owin.KonamiCode;
-using ken.Spikes.Owin.ServeDirectory;
 using Owin;
 
 namespace ken.Spikes.Owin
@@ -21,6 +20,22 @@ namespace ken.Spikes.Owin
                 await next();
                 if (ctx.IsHtmlResponse()) await ctx.Response.WriteAsync("Added at bottom will be moved into body by good browser");
                 Debug.WriteLine("OUT - " + ctx.Response.ContentLength);
+            });
+
+            app.UseDebugMiddleware(new DebugMiddlewareOptions
+            {
+                OnIncomingRequest = ctx =>
+                {
+                    var watch = new Stopwatch();
+                    watch.Start();
+                    ctx.Environment["DebugStopwatch"] = watch;
+                },
+                OnOutgoingRequest = ctx =>
+                {
+                    var watch = (Stopwatch)ctx.Environment["DebugStopwatch"];
+                    watch.Stop();
+                    Debug.WriteLine("Request took: " + watch.ElapsedMilliseconds + " ms");
+                }
             });
 
             app.Map("/mapped", map =>

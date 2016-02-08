@@ -56,6 +56,9 @@
     <Compile Include="Cornify\CornifyMiddleWare.cs" />
     <Compile Include="Cornify\CornifyMiddlewareExtensions.cs" />
     <Compile Include="Cornify\CornifyMiddlewareOptions.cs" />
+    <Compile Include="Debug\DebugMiddleware.cs" />
+    <Compile Include="Debug\DebugMiddlewareExtensions.cs" />
+    <Compile Include="Debug\DebugMiddlewareOptions.cs" />
     <Compile Include="IOwinContextExtensions.cs" />
     <Compile Include="KonamiCode\KonamiCodeMiddleware.cs" />
     <Compile Include="KonamiCode\KonamiCodeMiddlewareExtensions.cs" />
