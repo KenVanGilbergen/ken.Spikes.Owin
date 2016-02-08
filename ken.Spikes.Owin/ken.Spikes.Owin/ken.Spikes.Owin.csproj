@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HtmlAppender\HtmlAppenderMiddlewareExtensions.cs" />
+    <Compile Include="HtmlAppender\HtmlAppenderMiddlewareOptions.cs" />
+    <Compile Include="HtmlAppender\HtmlAppenderMiddleWare.cs" />
     <Compile Include="Cornify\CornifyMiddleWare.cs" />
     <Compile Include="Cornify\CornifyMiddlewareExtensions.cs" />
     <Compile Include="Cornify\CornifyMiddlewareOptions.cs" />

@@ -5,6 +5,8 @@ A bunch of middleware that can be used to teach the owin specification.
 
 ## Middleware
 
+* UseDebugMiddleware();
+* UseHtmlAppenderMiddleware();
 * UseCornifyMiddleware();
 * UseKonamiCodeMiddleware();
 * UseServeDirectoryMiddleware();
