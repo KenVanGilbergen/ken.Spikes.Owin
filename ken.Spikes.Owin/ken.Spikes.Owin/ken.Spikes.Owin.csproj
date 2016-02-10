@@ -88,6 +88,9 @@
     <Compile Include="KonamiCode\KonamiCodeMiddleware.cs" />
     <Compile Include="KonamiCode\KonamiCodeMiddlewareExtensions.cs" />
     <Compile Include="KonamiCode\KonamiCodeMiddlewareOptions.cs" />
+    <Compile Include="LiveReload\LiveReloadMiddlewareOptions.cs" />
+    <Compile Include="LiveReload\LiveReloadMiddleware.cs" />
+    <Compile Include="LiveReload\LiveReloadMiddlewareExtensions.cs" />
     <Compile Include="PathStringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServeDirectory\ServeDirectoryMiddlewareExtensions.cs" />
